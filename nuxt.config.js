@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+require('dotenv').config()
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -32,20 +33,68 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/composition-api/module',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
+    '@nuxtjs/dotenv',
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/auth-next',
+    'nuxt-izitoast',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: process.env.API_DOMAIN,
+    credentials:true,
+    proxy:true,
+  },
+
+  proxy:{
+    "/api":process.env.API_DOMAIN,
+  },
+
+  auth: {
+    strategies: {
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: process.env.API_DOMAIN,
+        endpoints:{
+          login:{
+            url:"/login",
+            method:"put",
+            propertyName:"access_token"
+          },
+
+          logout:{
+            url:"/logout",
+            method:"put",
+          },
+
+          user:{
+            url:"/user",
+            method:"get"
+          }
+        }
+      },
+    },
+
+    redirect: {
+      login:'/login',
+      logout: '/login',
+      home: '/home'
+    }
+  },
+
+  izitoast: {
+    position: 'bottomRight',
+    transitionIn: 'bounceInLeft',
+    transitionOut: 'fadeOutRight',
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
