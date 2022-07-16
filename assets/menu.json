@@ -1,0 +1,33 @@
+[
+  {
+    "text": "Dashboard",
+    "route": "/dashboard",
+    "icon": "mdi-view-dashboard-outline",
+    "subitems": [],
+    "policy": ["super-admin"]
+  },
+
+  {
+    "text": "Clientes",
+    "route": "/clients",
+    "icon": "mdi-account-star-outline",
+    "subitems": [],
+    "policy": ["super-admin"]
+  },
+
+  {
+    "text": "Catálogos",
+    "route": "",
+    "icon": "mdi-folder-multiple-outline",
+    "subitems": [
+      {
+        "text": "Almacenes",
+        "route": "/warehouses",
+        "icon": "mdi-warehouse",
+        "subitems": [],
+        "policy": ["super-admin"]
+      }
+    ],
+    "policy": ["super-admin"]
+  }
+]

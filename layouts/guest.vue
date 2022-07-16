@@ -8,6 +8,6 @@
 
 <script>
 export default {
-  name: 'guestLayout',
+  name: 'GuestLayout'
 }
 </script>

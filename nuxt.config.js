@@ -22,7 +22,9 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/vuex-persist', ssr: false }
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -61,38 +63,45 @@ export default {
 
   auth: {
     strategies: {
-      laravelSanctum: {
+      laravelSanctum:{
         provider: 'laravel/sanctum',
-        url: process.env.API_DOMAIN,
+        url:process.env.API_DOMAIN,
+
+        token:{
+          property:'access_token',
+          global:'true',
+          type:'Bearer',
+        },
+
         endpoints:{
           login:{
-            url:"/login",
+            url:`/api/${process.env.API_VERSION}/login`,
             method:"put",
             propertyName:"access_token"
           },
 
           logout:{
-            url:"/logout",
+            url:`/api/${process.env.API_VERSION}/logout`,
             method:"put",
           },
 
           user:{
-            url:"/user",
+            url:`/api/${process.env.API_VERSION}/users/me`,
             method:"get"
           }
         }
-      },
+      }
     },
 
     redirect: {
       login:'/login',
       logout: '/login',
-      home: '/home'
+      home: '/dashboard'
     }
   },
 
   izitoast: {
-    position: 'bottomRight',
+    position: 'topRight',
     transitionIn: 'bounceInLeft',
     transitionOut: 'fadeOutRight',
   },
