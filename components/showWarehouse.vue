@@ -1,27 +1,19 @@
 <template>
-    <v-navigation-drawer v-model="show" app temporary right :width="size">
+    <v-navigation-drawer v-model="show" app temporary right :width="size" :class="{ 'mx-3 mt-3': size !== '100%', 'rounded-lg':true }">
         <template #prepend>
-            <!-- <div class="pa-2" :style="{ 'background-color' : $store.state.primary }">
-                <v-btn  @click="$emit('close')" icon dark>
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
-            </div> -->
-
             <v-app-bar :color="$store.state.primary" dark>
-                <v-btn  @click="$emit('close')" icon>
+                <v-btn icon @click="$emit('close')">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
 
                 <v-toolbar-title>
                     <v-list-item>
                         <v-list-item-content>
-                            <v-list-item-title class="font-weight-bold">
-                                {{ warehouse.name }}
-                            </v-list-item-title>
+                            <v-list-item-title class="font-weight-bold" v-text="warehouse.name" />
                             <v-list-item-subtitle>
                                 <span style="font-size: 12px">
                                     ID : {{ warehouse.id }}
-                                    <v-icon size="12" @click="copy(warehouse.id)" right>mdi-content-copy</v-icon>
+                                    <v-icon size="12" right @click="copy(warehouse.id)">mdi-content-copy</v-icon>
                                 </span>
                             </v-list-item-subtitle>
                         </v-list-item-content>
@@ -41,7 +33,7 @@
                                     <td>{{ warehouse.name }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-weight-bold">Ciudad</td>
+                                    <td class="font-weight-bold">País</td>
                                     <td>{{ warehouse.country }}</td>
                                 </tr>
                                 <tr>
@@ -80,14 +72,19 @@
                                     <td class="font-weight-bold">Creación</td>
                                     <td>{{ warehouse.created_at }}</td>
                                 </tr>
+                                <tr v-if="warehouse.created_at !== warehouse.updated_at">
+                                    <td class="font-weight-bold">Última actualización</td>
+                                    <td>{{ warehouse.updated_at }}</td>
+                                </tr>
                             </tbody>
                         </template>
                     </v-simple-table>
                 </v-col>
-            </v-row>    
+
+                <v-col v-if="warehouse.map" cols="12" class="px-0 py-0 responsive-map-container" v-html="warehouse.map" />                    
+                
+            </v-row>
         </v-container>
-
-
     </v-navigation-drawer>
 </template>
 
@@ -113,14 +110,16 @@ export default defineComponent({
 
     setup(props, { emit }) {
 
-        const { $vuetify } = useContext() 
+        const { $vuetify } = useContext()
 
         const show = computed({
             get: () => props.dialog,
             set: (val) => !val ? emit('close') : val
         })
 
-        const size = computed(() => {
+        const title = computed(() => props.warehouse && show.value === true ? props.warehouse.name : 'Almacenes')
+
+        const size  = computed(() => {
             switch ($vuetify.breakpoint.name) {
                 case 'xs': return '100%'
                 case 'sm': return '50%'
@@ -138,8 +137,22 @@ export default defineComponent({
             size,
             show,
             copy,
+            title,
         }
 
     },
+
+    head(){
+        return {
+            title: this.title
+        }
+    }
 })
 </script>
+
+<style>
+    .responsive-map-container iframe{
+        width: 100%;
+        min-height: 475px;
+    }
+</style>

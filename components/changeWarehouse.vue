@@ -66,7 +66,7 @@ export default defineComponent({
 
             try{
                 loading.value  = true
-                const response = await $axios.put(`/api/${version}/users/update-warehouse`, { warehouse_id:warehouse.id })
+                const response = await $axios.patch(`/api/${version}/users/update-warehouse`, { warehouse_id:warehouse.id })
                 $auth.setUser(response.data)
                 location.reload()
             }

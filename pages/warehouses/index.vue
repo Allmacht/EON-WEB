@@ -10,12 +10,13 @@
                                 :color="$store.state.primary" 
                                 label="Buscar..." 
                                 append-icon="mdi-magnify" 
-                                filled 
+                                filled
+                                dense
                                 hide-details
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" xl="9" lg="8" class="text-right">
-                            <v-btn class="text-capitalize" :color="$store.state.primary" dark>
+                            <v-btn class="text-capitalize" :color="$store.state.primary" dark :to="{ name:'warehouses-create' }">
                                 Nuevo almacén
                                 <v-icon right>mdi-plus</v-icon>
                             </v-btn>
@@ -46,10 +47,10 @@
                                             <v-list-item @click="() => { showWarehouseItem = item; showWarehouseDialog = true }">
                                                 <v-list-item-title>Mostrar</v-list-item-title>
                                             </v-list-item>
-                                            <v-list-item>
+                                            <v-list-item :to="{name:'warehouses-edit-id', params:{ id:item.id }}">
                                                 <v-list-item-title>Editar</v-list-item-title>
                                             </v-list-item>
-                                            <v-list-item>
+                                            <v-list-item @click="() => { idWarehouseDelete = item.id; delWarehouseDialog = true; }">
                                                 <v-list-item-title>Eliminar</v-list-item-title>
                                             </v-list-item>
                                         </v-list>
@@ -63,6 +64,7 @@
         </v-container>
 
         <show-warehouse :dialog="showWarehouseDialog" :warehouse="showWarehouseItem" @close="showWarehouseDialog = false"></show-warehouse>
+        <delete-warehouse :dialog="delWarehouseDialog" :warehouse="idWarehouseDelete" @close="delWarehouseDialog = false" @update="getWarehouses()"></delete-warehouse>
     </div>
 </template>
 
@@ -83,6 +85,8 @@ export default defineComponent({
         const search              = ref("")
         const loading             = ref(true)
         const showWarehouseDialog = ref(false)
+        const delWarehouseDialog  = ref(false)
+        const idWarehouseDelete   = ref("")
         const showWarehouseItem   = reactive({})
         const footer              = {
             itemsPerPageAllText: 'Todo',
@@ -123,8 +127,11 @@ export default defineComponent({
             loading,
             headers,
             warehouses,
+            getWarehouses,
             showWarehouseItem,
-            showWarehouseDialog
+            idWarehouseDelete,
+            delWarehouseDialog,
+            showWarehouseDialog,
         }
 
     },

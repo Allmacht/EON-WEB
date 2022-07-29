@@ -1,0 +1,18 @@
+@import '../variables.scss';
+
+.v-btn{
+    text-transform:none !important;
+    letter-spacing:normal !important;
+}
+
+.v-card--loading{
+    overflow: inherit !important;
+}
+
+.create-element-div-header{
+    background-color: $backgroundColor;
+    position: sticky;
+    top: 100px;
+    z-index: 1;
+    opacity: 1;
+}

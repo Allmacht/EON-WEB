@@ -26,6 +26,14 @@
         "icon": "mdi-warehouse",
         "subitems": [],
         "policy": ["super-admin"]
+      },
+
+      {
+        "text": "Paqueterías",
+        "route": "/shipping-services",
+        "icon": "mdi-truck-delivery-outline",
+        "subitems": [],
+        "policy": ["super-admin"]
       }
     ],
     "policy": ["super-admin"]
