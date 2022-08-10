@@ -1,18 +1,128 @@
 @import '../variables.scss';
+@import './fonts.css';
 
-.v-btn{
-    text-transform:none !important;
-    letter-spacing:normal !important;
+html{
+    background-color: $backgroundColor !important;
 }
 
-.v-card--loading{
-    overflow: inherit !important;
-}
+.v-application{
+    font-family: 'Roboto', sans-serif !important;
+    background-color: $backgroundColor !important;
 
-.create-element-div-header{
-    background-color: $backgroundColor;
-    position: sticky;
-    top: 100px;
-    z-index: 1;
-    opacity: 1;
+    .app-bar{
+        .v-toolbar__content{
+            max-width: calc(1200px + calc(2 * 24px));
+            margin: auto;
+
+        }
+        
+        .v-toolbar__extension{
+            max-width: calc(1200px + calc(2 * 24px));
+            margin: auto;
+        }
+
+        .v-app-bar-title__content{
+            width: 100% !important;
+        }
+    }
+
+    .list{
+        background-color: $backgroundColor !important;
+    }
+
+    .main{
+        max-width: calc(1200px + calc(2 * 24px)) !important;
+        margin: auto !important;
+    }
+
+    .search-input{
+        
+        border: none !important;
+
+        > .v-input__control > .v-input__slot:before {
+            border-style: none !important; 
+        }
+
+        > .v-input__control > .v-input__slot::after {
+            border-style: none !important; 
+        }
+    }
+
+    .change-warehouse{
+        font-weight: 400;
+        font-size: 20px !important;
+
+        @media screen and (max-width: 960px) {
+            font-size: 12px !important;
+        }
+    }
+
+    .v-btn{
+        text-transform:none !important;
+        letter-spacing:normal !important;
+    }
+
+    .v-tab{
+        text-transform:none !important;
+        letter-spacing:normal !important;
+    }
+
+    .p-button{
+        color: $link;
+        cursor: pointer;
+    }
+
+    .title-color{
+        color: $primary;
+    }
+    
+    .v-card--loading{
+        overflow: inherit !important;
+    }
+    
+    .create-element-div-header{
+        background-color: $backgroundColor;
+        position: sticky;
+        top: 100px;
+        z-index: 1;
+        opacity: 1;
+    }
+
+    .v-list.shipping-services-list{
+        background-color: $backgroundColor !important;
+    }
+
+    .app-bar-items{
+        list-style-type: none;
+        display: flex;
+        align-items: center;
+
+        @media screen and (max-width: 960px) {
+            font-size: 12px !important;
+        }
+    }
+
+    .list{
+        .v-list-item--active{
+            background-color: $primary;
+            color:white !important;
+    
+            .v-list-item__icon i{
+                color: white !important;
+            }
+        }
+    }
+
+    .page-margin{
+        margin-top: 100px !important;
+    }
+
+    .v-stepper{
+        background-color: $backgroundColor !important;
+    }
+
+    .active-button{
+        background-color: $primary !important;
+        color: white !important;
+    }
 }

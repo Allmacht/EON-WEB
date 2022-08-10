@@ -1,7 +1,7 @@
 <template>
-    <v-container>
+    <catalogs>
         
-    </v-container>
+    </catalogs>
 </template>
 
 <script>
@@ -9,11 +9,17 @@ import { defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
 
-    name:'PageDashboard',
-    layout:'app',
+    name:"CatalogsPage",
+    layout:"app",
 
     setup() {
-        
+
     },
+
+    head(){
+        return {
+            title:"Catálogos"
+        }
+    }
 })
 </script>

@@ -1,7 +1,5 @@
 <template>
-    <v-container>
-        
-    </v-container>
+    <div></div>
 </template>
 
 <script>
@@ -9,8 +7,7 @@ import { defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
 
-    name:'PageDashboard',
-    layout:'app',
+    name:"AddShippingServiceComponent",
 
     setup() {
         

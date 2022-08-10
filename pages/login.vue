@@ -1,52 +1,87 @@
 <template>
-    <v-container fluid fill-height class="px-0 py-0">
-        <v-navigation-drawer :width="size" permanent stateless>
-            
-            <v-container fill-height>
-                <v-row justify="center" align="center">
-                    <v-col cols="12">
-                        <v-img src="/logo.svg" max-width="45%" class="mx-auto"></v-img>
-                    </v-col>
+    <v-container fill-height class="login-page">
+        <v-row justify="center" align="center">
+            <v-col cols="12" class="text-center mb-5">
+                <v-img src="/logo.svg" width="150" class="mx-auto"></v-img>
+            </v-col>
     
-                    <v-col class="mt-4" cols="11" xl="9">
-                        <v-form ref="loginForm" @submit.prevent="submit" :disabled="loading">
-                            <v-text-field v-model="form.email" :rules="[required, email]" type="email" label="Correo electrónico" filled></v-text-field>
-                            <v-text-field 
-                                v-model="form.password" 
-                                :rules="[required]" 
-                                :type="show ? 'text' : 'password'" 
-                                label="Contraseña" 
-                                filled
-                                :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                                @click:append="show = !show"
-                            ></v-text-field>
-    
-                            <v-btn :color="$store.state.primary" :loading="loading" type="submit" class="text-lowercase my-5" block x-large dark>
-                                Iniciar sesión
-                            </v-btn>
+            <v-col cols="10" xl="3" class="text-center">
+                <v-form ref="loginForm" @submit.prevent="submit" :disabled="loading">
+                    <v-text-field
+                        v-model="form.email"
+                        type="email"
+                        :rules="[required, email]"
+                        outlined
+                        clearable
+                        :color="$store.state.primary"
+                        label="Correo electrónico"
+                    ></v-text-field>
 
-                            <v-btn :color="$store.state.primary" :disabled="loading" class="text-lowercase" block text>
-                                ¿olvidaste tu contraseña?
-                            </v-btn>
-                        </v-form>
-                    </v-col>
-                </v-row>
-            </v-container>
-            
-            <template #append>
-                <v-divider></v-divider>
-                <div class="text-center py-5">
-                    <span class="text--disabled">
-                       <i> POWERED BY</i> YN<strong>TECH</strong>
-                    </span>
-                </div>
-            </template>
-        </v-navigation-drawer>
+                    <v-text-field 
+                        v-model="form.password" 
+                        :rules="[required]" 
+                        :type="show ? 'text' : 'password'"
+                        outlined
+                        label="Contraseña"
+                        :color="$store.state.primary"
+                        :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                        @click:append="show = !show"
+                    ></v-text-field>
+
+                    <v-row class="mb-2">
+                        <v-col class="text-left">
+                            <v-checkbox
+                                v-model="form.remember"
+                                name="remember"
+                                class="py-0 my-0"
+                                label="Recuérdame"
+                                :color="$store.state.primary"
+                            ></v-checkbox>
+                        </v-col>
+                        <v-col class="text-right">
+                            <p @click="forgotPassword = true" class="text-decoration-none p-button">
+                                Restaurar contraseña
+                            </p>
+                        </v-col>
+                    </v-row>
+
+                    <v-btn
+                        type="submit"
+                        block
+                        tile
+                        x-large
+                        dark
+                        :color="$store.state.primary"
+                        :loading="loading"
+                    >
+                        Iniciar sesión
+                    </v-btn>
+                </v-form>
+                
+                <p class="mt-10 text--disabled">
+                    ¿No tienes una cuenta?
+
+                    <nuxt-link :to="'/'" class="text-decoration-none">
+                        Contáctanos
+                    </nuxt-link>
+                </p>
+            </v-col>
+        </v-row>
+
+        <v-footer fixed class="mx-0" :color="$store.state.background">
+            <v-col cols="12" class="text-center">
+                <span class="text--disabled">
+                    <i class="mr-1"> POWERED BY</i> YN<strong>TECH</strong>
+                </span>
+            </v-col>
+        </v-footer>
+
+        <forgot-password :dialog="forgotPassword" @close="forgotPassword = false"></forgot-password>
     </v-container>
 </template>
 
 <script>
-import { computed, defineComponent, reactive, ref, useContext, useRouter } from '@nuxtjs/composition-api'
+import { defineComponent, reactive, ref, useContext, useRouter } from '@nuxtjs/composition-api'
 
 export default defineComponent({
 
@@ -58,26 +93,17 @@ export default defineComponent({
 
     setup() {
 
-        const { $vuetify, $auth, $notify } = useContext()
-        const router                       = useRouter()
+        const { $auth, $notify } = useContext()
+        const router             = useRouter()
 
-        const size = computed(() => {
-            switch ($vuetify.breakpoint.name) {
-                case 'xs': return '100%'
-                case 'sm': return '50%'
-                case 'md': return '30%'
-                case 'lg': return '25%'
-                case 'xl': return '25%'
-            }
-        })
-
+        const forgotPassword = ref(false)
         const loading   = ref(false)
         const show      = ref(false)
         const loginForm = ref(null)
         const form      = reactive({
             email       :"",
-            device_name :"web",
-            password    :""
+            password    :"",
+            remember    :false,
         })
 
         const required = value => !!value || 'El campo es requerido'
@@ -109,12 +135,12 @@ export default defineComponent({
         return {
             form,
             show,
-            size,
             email,
             submit,
             loading,
             required,
             loginForm,
+            forgotPassword,
         }
     },
 

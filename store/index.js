@@ -8,8 +8,7 @@ export const state = () => ({
     plugins: [vuexLocal.plugin],
     primary:"#045f80",
     secondary:"#02a3bf",
-    background:"#f8f9fc",
-    title:"Chronos México",
+    background:"#fafafa",
 })
 
 export const getters = {

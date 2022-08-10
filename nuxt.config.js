@@ -38,6 +38,7 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/composition-api/module',
+    '@nuxtjs/google-fonts',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -106,6 +107,21 @@ export default {
     position: 'topRight',
     transitionIn: 'bounceInLeft',
     transitionOut: 'fadeOutRight',
+  },
+
+
+  googleFonts: {
+    overwriting:true,
+    display: 'swap',
+    download:true,
+    base64:false,
+    inject:true,
+    fontsPath: '~assets/fonts',
+    families: {
+      Roboto:{
+        wght: [400, 500, 700, 900],
+      }
+    }
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

@@ -1,15 +1,12 @@
 <template>
     <v-menu offset-y>
         <template #activator="{ attrs, on }">
-            <v-btn class="text-capitalize py-6" text v-bind="attrs" v-on="on">
-                <v-avatar :color="$store.state.primary" :class="{'mr-3' : !$vuetify.breakpoint.xs}" size="36">
-                    <span class="white--text text-h7">
+            <v-btn class="text-capitalize py-6" text v-bind="attrs" v-on="on" icon>
+                <v-avatar :color="$store.state.primary" size="36">
+                    <span class="white--text text-h6">
                         {{ `${name[0].slice(0,1)}${name[1].slice(0,1)}` }}
                     </span>
                 </v-avatar>
-                <span v-if="!$vuetify.breakpoint.xs">
-                    {{ `${name[0]} ${name[1]}` }}
-                </span>
             </v-btn>
         </template>
 

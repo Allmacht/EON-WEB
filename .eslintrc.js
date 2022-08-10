@@ -13,6 +13,6 @@ module.exports = {
   // add your custom rules here
   rules: {
     "import/no-named-as-default": 0,
-    "vue/valid-v-slot": 0
+    "vue/valid-v-slot": 0,
   },
 }

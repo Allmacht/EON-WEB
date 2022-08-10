@@ -22,7 +22,7 @@
     "subitems": [
       {
         "text": "Almacenes",
-        "route": "/warehouses",
+        "route": "/catalogs/warehouses",
         "icon": "mdi-warehouse",
         "subitems": [],
         "policy": ["super-admin"]
@@ -30,7 +30,7 @@
 
       {
         "text": "Paqueterías",
-        "route": "/shipping-services",
+        "route": "/catalogs/shipping-services",
         "icon": "mdi-truck-delivery-outline",
         "subitems": [],
         "policy": ["super-admin"]

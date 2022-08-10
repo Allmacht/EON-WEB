@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<v-navigation-drawer v-model="navigation" :color="$store.state.primary" dark app>
+		<!-- <v-navigation-drawer v-model="navigation" :color="$store.state.primary" dark app floating>
 			<template #prepend>
 				<v-img src="/chronos-logo.svg" max-width="65%" class="mx-auto my-7"></v-img>
 			</template>
@@ -40,7 +40,7 @@
 			</v-list>
 		</v-navigation-drawer>
 
-		<v-app-bar height="100" elevation="1" color="#f8f9fc" elevate-on-scroll scroll-target="#main" app>
+		<v-app-bar elevation="1" :color="$store.state.background" app>
 			<v-app-bar-nav-icon @click="navigation = !navigation"></v-app-bar-nav-icon>
 			<v-toolbar-title>
 				<v-list-item>
@@ -61,12 +61,51 @@
 			
 			<change-warehouse></change-warehouse>
 			<user-menu></user-menu>
+		</v-app-bar> -->
+
+		<v-navigation-drawer v-model="navigation" app clipped :color="$store.state.primary" dark temporary>
+			
+		</v-navigation-drawer>
+
+		<v-app-bar height="65" class="app-bar" app color="white" elevation="1" clipped-left>
+
+			<v-app-bar-nav-icon @click="navigation = !navigation"></v-app-bar-nav-icon>
+
+			<v-app-bar-title class="px-0">
+				<ol class="app-bar-items">
+					<li class="mr-3">
+						<v-img src="/icon.svg" width="30"></v-img>
+					</li>
+
+					<li>
+						{{ $auth.user.data.name }}
+						<v-icon color="black" class="mb-1">mdi-chevron-right</v-icon>
+					</li>
+
+					<li>
+						<change-warehouse></change-warehouse>
+					</li>
+				</ol>
+			</v-app-bar-title>
+
+			<v-spacer></v-spacer>
+
+			<user-menu></user-menu>
+
+			<template #extension>
+				<v-tabs align-with-title :color="$store.state.primary">
+					<v-tab :to="'/dashboard'">Dashbard</v-tab>
+					<v-tab>Productos</v-tab>
+					<v-tab :to="{ name:'clients' }">Clientes</v-tab>
+					<v-tab :to="{ name:'catalogs' }">Catálogos</v-tab>
+				</v-tabs>
+			</template>
 		</v-app-bar>
 
 		<v-main>
-			<div id="main">
+			<v-container class="main">
 				<Nuxt />
-			</div>
+			</v-container>
 		</v-main>
 	</v-app> 
 </template>
@@ -76,6 +115,8 @@ import { computed, defineComponent, ref, useStore } from '@nuxtjs/composition-ap
 import menu from '../assets/menu.json'
 
 export default defineComponent({
+
+	middleware:['authenticated','auth'],
 
     setup() {
 
@@ -100,9 +141,3 @@ export default defineComponent({
     },
 })
 </script>
-
-<style>
-	.v-application{
-		background-color: #f8f9fc !important;
-	}
-</style>
