@@ -23,6 +23,13 @@
                                 <v-text-field v-model="form.contact" outlined label="Nombre de contacto"/>
                                 <v-text-field v-model="form.phone" v-mask="'+## (###) ### ####'" outlined label="Teléfono"/>
                                 <v-file-input v-model="form.image[0]" label="Logotipo" outlined @change="previewImage(form.image[0])"/>
+
+                                <v-card-subtitle class="px-0">
+                                    Credenciales <br>
+                                    Añada las credenciales requeridas para el uso de la paquetería, separadas por coma (,)
+                                </v-card-subtitle>
+
+                                <v-text-field v-model="form.credentials" outlined :rules="[required]" @keydown.space.prevent></v-text-field>
                             </v-form>
                         </v-card-text>
                     </v-card>
@@ -70,6 +77,7 @@ export default defineComponent({
             contact:"",
             phone:"",
             image:[],
+            credentials:"",
         })
 
         const required = value => !!value || 'El campo es requerido'
@@ -93,6 +101,7 @@ export default defineComponent({
                 data.append('contact', form.contact)
                 data.append('phone', form.phone)
                 data.append('image', form.image[0])
+                data.append('credentials', JSON.stringify(form.credentials.split(',')));
 
                 await $axios.post(`/api/${version}/shipping-services/store`, data)
 

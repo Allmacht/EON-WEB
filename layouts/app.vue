@@ -1,117 +1,85 @@
 <template>
 	<v-app>
-		<!-- <v-navigation-drawer v-model="navigation" :color="$store.state.primary" dark app floating>
-			<template #prepend>
-				<v-img src="/chronos-logo.svg" max-width="65%" class="mx-auto my-7"></v-img>
-			</template>
 
+		<v-navigation-drawer v-model="navigation" :mini-variant="!navigation" permanent app clipped>
 			<v-list>
 				<v-list-item-group>
-					<template v-for="menu in menus">
-						<v-list-item v-if="menu.subitems.length === 0" :key="menu.text" link :to="menu.route" @click="handleChangeRoute(menu, null)">
-							<v-list-item-icon>
-								<v-icon v-text="menu.icon"></v-icon>
-							</v-list-item-icon>
+					<v-list-item v-for="menu in menus" :key="menu.route" :color="$store.state.primary" :to="menu.route">
+						<v-list-item-icon>
+							<v-icon left v-text="menu.icon"></v-icon>
+						</v-list-item-icon>
 
-							<v-list-item-content>
-								<v-list-item-title v-text="menu.text"></v-list-item-title>
-							</v-list-item-content>
-						</v-list-item>
-
-						<v-list-group v-else :key="'s-'+menu.text" :prepend-icon="menu.icon" color="white" no-action>
-							<template #activator>
-								<v-list-item-content>
-									<v-list-item-title v-text="menu.text"></v-list-item-title>
-								</v-list-item-content>
-							</template>
-
-							<v-list-item v-for="subitem in menu.subitems" :key="subitem.text" link :to="subitem.route" @click="handleChangeRoute(menu, subitem)">
-								<v-list-item-content>
-									<v-list-item-title v-text="subitem.text"></v-list-item-title>
-								</v-list-item-content>
-
-								<v-list-item-icon>
-									<v-icon v-text="subitem.icon"></v-icon>
-								</v-list-item-icon>
-							</v-list-item>
-						</v-list-group>
-					</template>
+						<v-list-item-content>
+							<v-list-item-title v-text="menu.text"></v-list-item-title>
+						</v-list-item-content>
+					</v-list-item>
 				</v-list-item-group>
 			</v-list>
 		</v-navigation-drawer>
 
-		<v-app-bar elevation="1" :color="$store.state.background" app>
-			<v-app-bar-nav-icon @click="navigation = !navigation"></v-app-bar-nav-icon>
+		<v-app-bar class="app-bar" color="white" height="80" clipped-left app>
+
+			<v-app-bar-nav-icon @click="navigation = !navigation" style="color:black"></v-app-bar-nav-icon>
+
 			<v-toolbar-title>
-				<v-list-item>
+				<v-list-item class="px-0">
+					
+					<v-list-item-avatar>
+						<v-img src="icon.svg"></v-img>
+					</v-list-item-avatar>
+
 					<v-list-item-content>
-						<v-list-item-title>
-							<h3>
-								{{ title }}
-							</h3>
+
+						<v-list-item-title :style="{ 'color' : $store.state.primary }">
+							{{ $auth.user.data.name }}
 						</v-list-item-title>
-						<v-list-item-subtitle class="text--disabled">
-							<clock></clock> - <date></date>
+
+						<v-list-item-subtitle>
+							<date></date> | <clock></clock>
 						</v-list-item-subtitle>
+
 					</v-list-item-content>
+
 				</v-list-item>
 			</v-toolbar-title>
 
 			<v-spacer></v-spacer>
 			
 			<change-warehouse></change-warehouse>
-			<user-menu></user-menu>
-		</v-app-bar> -->
 
-		<v-navigation-drawer v-model="navigation" app clipped :color="$store.state.primary" dark temporary>
-			
-		</v-navigation-drawer>
+			<v-text-field
+				class="search mx-3"
+				:color="$store.state.primary"
+				outlined
+				dense
+				hide-details
+				placeholder="Buscar..."
+				append-icon="mdi-magnify"
+				readonly
+				@click="searchDialog = true"
+			></v-text-field>
 
-		<v-app-bar height="65" class="app-bar" app color="white" elevation="1" clipped-left>
+			<v-btn class="text-capitalize" text icon @click="userNavigation = !userNavigation">
+				<v-avatar :color="$store.state.primary" size="36">
+					<span class="white--text text-h6">
+						{{ name }}
+					</span>
+				</v-avatar>
+			</v-btn>
 
-			<v-app-bar-nav-icon @click="navigation = !navigation"></v-app-bar-nav-icon>
-
-			<v-app-bar-title class="px-0">
-				<ol class="app-bar-items">
-					<li class="mr-3">
-						<v-img src="/icon.svg" width="30"></v-img>
-					</li>
-
-					<li>
-						{{ $auth.user.data.name }}
-						<v-icon color="black" class="mb-1">mdi-chevron-right</v-icon>
-					</li>
-
-					<li>
-						<change-warehouse></change-warehouse>
-					</li>
-				</ol>
-			</v-app-bar-title>
-
-			<v-spacer></v-spacer>
-
-			<user-menu></user-menu>
-
-			<template #extension>
-				<v-tabs align-with-title :color="$store.state.primary">
-					<v-tab :to="'/dashboard'">Dashbard</v-tab>
-					<v-tab>Productos</v-tab>
-					<v-tab :to="{ name:'clients' }">Clientes</v-tab>
-					<v-tab :to="{ name:'catalogs' }">Catálogos</v-tab>
-				</v-tabs>
-			</template>
 		</v-app-bar>
 
 		<v-main>
-			<v-container class="main">
-				<Nuxt />
-			</v-container>
+			<Nuxt />
 		</v-main>
+
+		<user-menu :dialog="userNavigation" @close="userNavigation = false"></user-menu>
+		<search-dialog :dialog="searchDialog" @close="searchDialog = false"></search-dialog>
 	</v-app> 
 </template>
 
 <script>
-import { computed, defineComponent, ref, useStore } from '@nuxtjs/composition-api'
+import { computed, defineComponent, ref, useRoute, useStore, useContext } from '@nuxtjs/composition-api'
 import menu from '../assets/menu.json'
 
 export default defineComponent({
@@ -120,11 +88,34 @@ export default defineComponent({
 
     setup() {
 
-		const store  = useStore()
+		const { $auth } = useContext()
 
-		const navigation = ref(true)
-		const menus      = menu
-		const title 	 = computed(() => store.getters.getTitle)
+		const store  = useStore()
+		const route  = useRoute()
+
+		const menus      	 = menu
+		const navigation 	 = ref(true)
+		const userNavigation = ref(false)
+		const searchDialog 	 = ref(false)
+		const title 	 	 = computed(() => store.getters.getTitle)
+		const submenus   	 = computed(() => { return menu.filter(menu => route.value.path.includes(menu.route)) })
+		const name 			 = computed(() => {
+            const names =  $auth.user.data.name.split(' ')
+
+            if(names.length < 2){
+                return names[0].slice(0,2)
+            }
+
+            return `${names[0].slice(0,1)}${names[1].slice(0,1)}`
+        })
+
+
+		document.onkeydown = (e) => {
+            if(e.ctrlKey && e.key === 'b'){
+                e.preventDefault()
+                navigation.value = !navigation.value
+            }
+        }
 
 		const handleChangeRoute = (item, subitem) => {
 			const title = item.text + (subitem !== null ? ' - '+subitem.text : '')
@@ -132,9 +123,13 @@ export default defineComponent({
 		}
 
 		return {
+			name,
 			title,
 			menus,
+			submenus,
 			navigation,
+			searchDialog,
+			userNavigation,
 			handleChangeRoute,
 		}
         

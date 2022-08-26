@@ -1,26 +1,5 @@
 <template>
     <div>
-        <v-app-bar height="100" elevation="1" absolute class="app-bar subtitle-app-bar" color="white">
-            <v-app-bar-title class="title title-color">Clientes</v-app-bar-title>
-            
-            <v-spacer></v-spacer>
-
-            <v-col cols="6" xl="3">
-                <v-text-field
-                    v-model="search"
-                    :color="$store.state.primary" 
-                    placeholder="Buscar..." 
-                    prepend-inner-icon="mdi-magnify" 
-                    outlined
-                    dense
-                    hide-details
-                ></v-text-field>
-            </v-col>
-
-            <v-btn :color="$store.state.primary" dark :to="{ name:'clients-create' }">Crear</v-btn>
-
-        </v-app-bar>
-
         <v-container class="page-margin px-0">
             <v-row justify="center" align="center">
                 <v-col cols="12">

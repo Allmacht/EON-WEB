@@ -24,6 +24,13 @@
                                 <v-text-field outlined v-model="shippingService.contact" label="Nombre de contacto"/>
                                 <v-text-field outlined v-model="shippingService.phone" v-mask="'+## (###) ### ####'" label="Teléfono"/>
                                 <v-file-input outlined v-model="newImage[0]" @change="changePreview()" label="Logotipo"/>
+
+                                <v-card-subtitle class="px-0">
+                                    Credenciales <br>
+                                    Añada las credenciales requeridas para el uso de la paquetería, separadas por coma (,)
+                                </v-card-subtitle>
+
+                                <v-text-field v-model="shippingService.credentials_required" outlined :rules="[required]" @keydown.space.prevent></v-text-field>
                             </v-form>
                         </v-card-text>
                     </v-card>
@@ -113,6 +120,7 @@ export default defineComponent({
                 data.append('contact', shippingService.value.contact)
                 data.append('phone', shippingService.value.phone)
                 data.append('image', newImage.value[0] ??= "")
+                data.append('credentials', JSON.stringify(shippingService.value.credentials_required.split(',')));
 
                 await $axios.post(`/api/${version}/shipping-services/update/${shippingService.value.id}`, data)
 

@@ -17,7 +17,7 @@
 
   {
     "text": "Catálogos",
-    "route": "",
+    "route": "/catalogs",
     "icon": "mdi-folder-multiple-outline",
     "subitems": [
       {
@@ -30,6 +30,46 @@
 
       {
         "text": "Paqueterías",
+        "route": "/catalogs/shipping-services",
+        "icon": "mdi-truck-fast-outline",
+        "subitems": [],
+        "policy": ["super-admin"]
+      },
+
+      {
+        "text": "Ubicaciones",
+        "route": "/catalogs/shipping-services",
+        "icon": "mdi-map-marker-outline",
+        "subitems": [],
+        "policy": ["super-admin"]
+      },
+
+      {
+        "text": "Puertas",
+        "route": "/catalogs/shipping-services",
+        "icon": "mdi-door-sliding",
+        "subitems": [],
+        "policy": ["super-admin"]
+      },
+
+      {
+        "text": "Cajas",
+        "route": "/catalogs/shipping-services",
+        "icon": "mdi-package-variant-closed",
+        "subitems": [],
+        "policy": ["super-admin"]
+      },
+
+      {
+        "text": "Agentes aduanales",
+        "route": "/catalogs/shipping-services",
+        "icon": "mdi-face-agent",
+        "subitems": [],
+        "policy": ["super-admin"]
+      },
+
+      {
+        "text": "Proveedores de origen",
         "route": "/catalogs/shipping-services",
         "icon": "mdi-truck-delivery-outline",
         "subitems": [],

@@ -1,16 +1,22 @@
 <template>
     <v-menu v-if="current" offset-y :close-on-content-click="false">
         <template #activator="{ attrs, on }">
-            <v-btn class="text-capitalize px-1 change-warehouse" :color="$store.state.primary" :loading="loading" text v-bind="attrs" v-on="on">
+            <v-btn class="text-capitalize px-1 py-5 px-4 change-warehouse" :color="$store.state.primary" :loading="loading" text v-bind="attrs" v-on="on">
                 {{ current.name }}
                 <v-icon right :color="$store.state.primary">mdi-unfold-more-horizontal</v-icon>
             </v-btn>
         </template>
 
         <v-list>
-
-            
-            <v-text-field v-model="search" @keyup="filter()" class="pt-0 pa-2 search-input" hide-details prepend-icon="mdi-magnify" placeholder="Buscar..."></v-text-field>
+            <v-text-field
+                v-model="search"
+                class="pt-0 pa-2 search-input"
+                hide-details
+                :color="$store.state.primary"
+                prepend-icon="mdi-magnify"
+                placeholder="Buscar..."
+                @keyup="filter()"
+            ></v-text-field>
 
             <v-divider></v-divider>
 
@@ -18,8 +24,16 @@
 
             <v-list-item-group>
                 <template v-if="filtered.length > 0">
-                    <v-list-item v-for="warehouse in filtered" :key="warehouse.id" @click="handleChangeWarehouse(warehouse)">
+                    <v-list-item
+                        v-for="warehouse in filtered"
+                        :key="warehouse.id"
+                        @click="handleChangeWarehouse(warehouse)"
+                        :style="{'background-color' : $auth.user.data.warehouse === warehouse.id ? '#ebf2f5' : ''}"
+                    >
                         <v-list-item-title v-text="warehouse.name"></v-list-item-title>
+                        <v-list-item-action v-if="$auth.user.data.warehouse === warehouse.id">
+                            <v-icon :color="$store.state.primary">mdi-check</v-icon>
+                        </v-list-item-action>
                     </v-list-item>
                 </template>
 
